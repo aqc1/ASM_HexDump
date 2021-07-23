@@ -94,11 +94,9 @@ print_part_1:
     mov     [switch],   dl
     xor     rdx,    rdx
     mov     rdx,    hex
-    ;shr     rdx,    8
     xor     rbx,    rbx
     mov     bh,     ah
     add     dl,     bh
-    ;shl     rdx,    8
     mov     rbx,    rdx
     call    output
     jmp     output_hex
@@ -111,7 +109,7 @@ finalize:
     cmp     cl,     bl
     jge     print_newline
     jmp     print_space
-; Print Newling and Restart Column Count
+; Print Newline and Restart Column Count
 print_newline:
     xor     rbx,    rbx
     mov     rbx,    newline
