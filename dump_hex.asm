@@ -1,4 +1,4 @@
-; hexdump.asm - Assemble with NASM
+; dump_hex.asm - Assemble with NASM
 
 section .data
     ; Simply a 1 Byte Buffer
