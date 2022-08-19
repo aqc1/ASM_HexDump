@@ -1,4 +1,4 @@
-PROGRAM=dump_hex
+PROGRAM=simple_hexdump
 
 all: compile
 

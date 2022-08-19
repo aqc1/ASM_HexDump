@@ -1,4 +1,5 @@
-; dump_hex.asm - Assemble with NASM
+; simple_hexdump.asm - Assemble with NASM
+; Compile instructions in Makefile
 
 section .data
     ; Simply a 1 Byte Buffer
@@ -54,6 +55,7 @@ find_hex:
     xor     rdx,    rdx
     mov     dl,     byte[buffer]
 ; Find Binary of a Character
+; Consecutively subtracts powers of 2
 find_binary:
     cmp     cl,     8
     jg      split_hex
@@ -63,16 +65,20 @@ find_binary:
     jl      skip_power
     add     al,     bl
     sub     dl,     bl
+; Don't subtract if bigger than current value
 skip_power:
     inc     rcx
     jmp     find_binary
 ; Split AL Register into AH and AL Registers
+; Each register gets 4 bytes
 split_hex:
     mov     ah,     al
     and     ah,     0xf0
     shr     ah,     4
     and     al,     0x0f
 ; Output Hex Equivalent to Character
+; If it's the first hex of the pair - jmp and output
+; If its second hex of the pair - output and prep for next pair
 output_hex:
     xor     rbx,    rbx
     xor     rdx,    rdx
@@ -89,6 +95,7 @@ output_hex:
     mov     rbx,    rdx
     call    output
     jmp     finalize
+; Print first character in hex pair
 print_part_1:
     mov     rdx,    1
     mov     [switch],   dl
@@ -101,6 +108,7 @@ print_part_1:
     call    output
     jmp     output_hex
 ; Prepare for Next Hex Pair
+; Check if a space or a newline is needed
 finalize:
     xor     rbx,    rbx
     xor     rcx,    rcx
@@ -136,6 +144,7 @@ done:
     pop     rsi
     ret
 
+; Entry point
 _start:
     ; Read in 1 Byte from STDIN
     mov     rax,    0x00    ; SYS_READ

@@ -1,2 +1,3 @@
-dump_hex.o
-dump_hex
+# Files from compilation and linkage
+simple_hexdump.o
+simple_hexdump
